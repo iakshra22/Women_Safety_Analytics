@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Women Safety Analytics — Frontend</title>
+  <meta name="description" content="Frontend for Women Safety Analytics (CCTV monitoring, alerts, hotspot map, gesture detection simulation)." />
+
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- External Libraries -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">WS</div>
+      <div>
+        <h1>Women Safety Analytics — Dashboard</h1>
+        <p class="lead">Real-time CCTV monitoring · SOS gesture detection · Hotspot mapping</p>
+      </div>
+    </div>
+    <div>
+      <button class="btn" id="simulateBtn">Simulate Event</button>
+      <button class="btn ghost" id="exportLogs">Export Logs</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section>
+      <div class="left-grid">
+        <div class="card video-wrap">
+          <div style="display:flex;gap:12px;height:100%">
+            <div style="flex:1">
+              <video id="cctv" autoplay muted playsinline loop>
+                <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
+                Your browser doesn't support the video tag.
+              </video>
+            </div>
+            <aside class="controls card">
+              <h3>System Status</h3>
+              <div class="status">
+                <div class="item"><span>AI Model</span><strong id="aiStatus">Idle</strong></div>
+                <div class="item"><span>Last Alert</span><strong id="lastAlert">—</strong></div>
+                <div class="item"><span>Connected Cameras</span><strong id="cams">1</strong></div>
+                <div class="item"><span>Active Alerts</span><strong id="activeAlerts">0</strong></div>
+              </div>
+              <hr>
+              <div class="btn-group">
+                <button class="btn" id="toggleAI">Start AI</button>
+                <button class="btn ghost" id="clearAlerts">Clear</button>
+              </div>
+              <p class="meta">Tip: Click <strong>Simulate Event</strong> to emulate detection.</p>
+            </aside>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Analytics & Detections</h3>
+          <canvas id="doughnut"></canvas>
+          <div class="analytics">
+            <div class="detections">
+              <h4>Recent Detections</h4>
+              <ul id="recentDetections"></ul>
+            </div>
+            <div class="hotspot">
+              <h4>Hotspot Score</h4>
+              <div id="hotspotScore">12</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <aside>
+      <div class="card">
+        <h3>Hotspot Map</h3>
+        <div id="map"></div>
+        <div class="alerts" id="alertsList"></div>
+      </div>
+
+      <div class="card">
+        <h3>Action Panel</h3>
+        <p class="meta">Simulated actions (replace with backend APIs)</p>
+        <div class="btn-group">
+          <button class="btn" id="notifyPolice">Notify Police</button>
+          <button class="btn ghost" id="notifyGuardian">Notify Guardian</button>
+          <button class="btn ghost" id="markFalse">Mark False Positive</button>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <footer>
+    Demo frontend implementing ideas from the PPT: CCTV monitoring, SOS gesture detection, hotspot mapping & instant alerts.
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

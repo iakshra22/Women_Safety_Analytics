@@ -3,22 +3,27 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Women Safety Analytics — Frontend</title>
+  <title>Women Safety Analytics — Dashboard</title>
   <meta name="description" content="Frontend for Women Safety Analytics (CCTV monitoring, alerts, hotspot map, gesture detection simulation)." />
 
   <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
-  
-  <!-- CSS -->
-  <link rel="stylesheet" href="style.css">
-  
-  <!-- External Libraries -->
+
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
+
+  <nav class="side-nav">
+    <h2>WS Dashboard</h2>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
+
   <header>
     <div class="brand">
       <div class="logo">WS</div>
@@ -27,81 +32,105 @@
         <p class="lead">Real-time CCTV monitoring · SOS gesture detection · Hotspot mapping</p>
       </div>
     </div>
-    <div>
-      <button class="btn" id="simulateBtn">Simulate Event</button>
-      <button class="btn ghost" id="exportLogs">Export Logs</button>
+
+    <div class="header-actions">
+      <div class="bot-wrap">
+        <img class="bot-gif" src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" alt="bot" />
+        <div class="ai-pill">
+          <span id="aiDot" class="ai-dot"></span>
+          <small id="aiStatusText">Idle</small>
+        </div>
+      </div>
+
+      <div class="controls-top">
+        <button class="btn ripple" id="simulateBtn">Simulate Event</button>
+        <button class="btn ghost ripple" id="exportLogs">Export Logs</button>
+      </div>
     </div>
   </header>
 
   <main class="layout">
-    <section>
-      <div class="left-grid">
-        <div class="card video-wrap">
-          <div style="display:flex;gap:12px;height:100%">
-            <div style="flex:1">
-              <video id="cctv" autoplay muted playsinline loop>
-                <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
-                Your browser doesn't support the video tag.
-              </video>
-            </div>
-            <aside class="controls card">
-              <h3>System Status</h3>
-              <div class="status">
-                <div class="item"><span>AI Model</span><strong id="aiStatus">Idle</strong></div>
-                <div class="item"><span>Last Alert</span><strong id="lastAlert">—</strong></div>
-                <div class="item"><span>Connected Cameras</span><strong id="cams">1</strong></div>
-                <div class="item"><span>Active Alerts</span><strong id="activeAlerts">0</strong></div>
-              </div>
-              <hr>
-              <div class="btn-group">
-                <button class="btn" id="toggleAI">Start AI</button>
-                <button class="btn ghost" id="clearAlerts">Clear</button>
-              </div>
-              <p class="meta">Tip: Click <strong>Simulate Event</strong> to emulate detection.</p>
-            </aside>
+    <section class="left-col">
+      <div class="video-grid">
+        <div class="video-area">
+          <video id="cctv" autoplay muted playsinline loop>
+            <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
+            Your browser doesn't support the video tag.
+          </video>
+          <div class="camera-corner">
+            <div class="cam-badge">CAM 01</div>
+            <div class="cam-status">Live</div>
           </div>
         </div>
 
-        <div class="card">
+        <aside class="controls card status-card">
+          <h3>System Status</h3>
+          <div class="status">
+            <div class="item"><span>AI Model</span><strong id="aiStatus">Idle</strong></div>
+            <div class="item"><span>Last Alert</span><strong id="lastAlert">—</strong></div>
+            <div class="item"><span>Connected Cameras</span><strong id="cams">1</strong></div>
+            <div class="item"><span>Active Alerts</span><strong id="activeAlerts">0</strong></div>
+          </div>
+          <hr>
+          <div class="btn-group">
+            <button class="btn ripple" id="toggleAI">Start AI</button>
+            <button class="btn ghost ripple" id="clearAlerts">Clear</button>
+          </div>
+          <p class="meta">Tip: Click <strong>Simulate Event</strong> to emulate detection.</p>
+        </aside>
+
+        <div class="card analytics-card">
           <h3>Analytics & Detections</h3>
-          <canvas id="doughnut"></canvas>
+          <canvas id="doughnut" height="120"></canvas>
           <div class="analytics">
             <div class="detections">
               <h4>Recent Detections</h4>
-              <ul id="recentDetections"></ul>
+              <ul id="recentDetections" class="detections-list"></ul>
             </div>
             <div class="hotspot">
               <h4>Hotspot Score</h4>
-              <div id="hotspotScore">12</div>
+              <div id="hotspotScore" class="hotspot-score">0</div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <aside>
-      <div class="card">
+    <aside class="right-col">
+      <div class="card map-card">
         <h3>Hotspot Map</h3>
-        <div id="map"></div>
+        <div id="map" class="mapbox"></div>
         <div class="alerts" id="alertsList"></div>
       </div>
 
-      <div class="card">
+      <div class="card action-card">
         <h3>Action Panel</h3>
-        <p class="meta">Simulated actions (replace with backend APIs)</p>
+        <p class="meta">Simulated actions</p>
         <div class="btn-group">
-          <button class="btn" id="notifyPolice">Notify Police</button>
-          <button class="btn ghost" id="notifyGuardian">Notify Guardian</button>
-          <button class="btn ghost" id="markFalse">Mark False Positive</button>
+          <button class="btn ripple" id="notifyPolice">Notify Police</button>
+          <button class="btn ghost ripple" id="notifyGuardian">Notify Guardian</button>
+          <button class="btn ghost ripple" id="markFalse">Mark False Positive</button>
         </div>
+      </div>
+
+      <div class="card people-card">
+        <h3>People Analytics</h3>
+        <ul>
+          <li>Total People: <span id="totalPeople">0</span></li>
+          <li>Men: <span id="menCount">0</span></li>
+          <li>Women: <span id="womenCount">0</span></li>
+          <li>SOS Gestures: <span id="sosCount">0</span></li>
+        </ul>
       </div>
     </aside>
   </main>
 
   <footer>
-    Demo frontend implementing ideas from the PPT: CCTV monitoring, SOS gesture detection, hotspot mapping & instant alerts.
+    Demo frontend: CCTV monitoring, SOS gesture detection, hotspot mapping & instant alerts.
   </footer>
 
   <script src="script.js"></script>
 </body>
 </html>
+
+

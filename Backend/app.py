@@ -9,7 +9,7 @@ db = mysql.connector.connect(
     user="root",
     password="akshra101",
     database="women_safety"
-)
+
 cursor = db.cursor()
 
 camera_url = "http://172.17.5.246:8080/video"
@@ -91,3 +91,4 @@ def login():
 
 if __name__ == '__main__':
     app.run(debug=True)
+

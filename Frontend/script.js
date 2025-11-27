@@ -92,9 +92,10 @@ document.getElementById('exportLogs').addEventListener('click',()=>{
   URL.revokeObjectURL(url);
 });
 
-addAlert('lone',28.7041,77.1025,'Demo: lone woman detected');
+addAlert('lone',28.7041,77.1025,'Demo: alone woman detected');
 addAlert('gesture',28.67,77.22,'Demo: SOS gesture recognized');
 updateUI();
+
 
 
 
